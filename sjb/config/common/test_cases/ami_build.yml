@@ -1,0 +1,5 @@
+---
+parameters:
+- name: "GRANT_LAUNCH_OPTS"
+  description: "AWS Account ID to grant launch permissions to when building images."
+  default_value: "--grant-launch 460538899914"

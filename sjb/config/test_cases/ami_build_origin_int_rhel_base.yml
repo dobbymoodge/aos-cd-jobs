@@ -1,4 +1,5 @@
 ---
+parent: 'common/test_cases/ami_build.yml'
 parameters: []
 provision:
   os: "rhel"
@@ -47,6 +48,10 @@ actions:
     title: "package the AMI"
     script: |-
       oct package ami --stage=next
+      if [[ -n "${GRANT_LAUNCH_OPTS}" ]]
+      then
+        oct package ami ${GRANT_LAUNCH_OPTS}
+      fi
   - type: "script"
     title: "use a ramdisk for etcd"
     script: |-
@@ -127,14 +132,6 @@ actions:
     title: "release the AMI"
     script: |-
       oct package ami --mark-ready
-      if [[ -e ~/.config/origin-ci-tool/grant_launch_opts ]]
-      then
-        GRANT_LAUNCH_OPTS="$(cat ~/.config/origin-ci-tool/grant_launch_opts)"
-        if [[ -n "${GRANT_LAUNCH_OPTS}" ]]
-        then
-          oct package ami ${GRANT_LAUNCH_OPTS}
-        fi
-      fi
 artifacts:
   - "/data/src/github/openshift/origin/_output/scripts"
 generated_artifacts:
