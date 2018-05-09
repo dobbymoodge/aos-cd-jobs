@@ -15,7 +15,7 @@ from actions.download_artifacts import DownloadArtifactsAction
 from actions.evars import EvarsAction
 from actions.forward_parameter import ForwardParametersAction
 from actions.generate_artifacts import GenerateArtifactsAction
-from actions.host_script import HostScriptAction
+from actions.host_script import HostScriptAction, PreconditionHostScriptAction
 from actions.multi_action import MultiAction
 from actions.multi_sync import MultiSyncAction
 from actions.oct_install import OCTInstallAction
@@ -106,6 +106,10 @@ if job_type == "test":
 
     # all jobs will install the tool first
     actions.append(OCTInstallAction())
+
+    if "precondition" in job_config:
+        debug("[INFO] Adding precondition host script action")
+        actions.append(PreconditionHostScriptAction(job_config["precondition"]["script"]))
 
     # next, all jobs will provision a remote VM
     actions.append(ProvisionAction(

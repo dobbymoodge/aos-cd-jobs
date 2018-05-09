@@ -1,6 +1,6 @@
 ---
 provision:
-  os: "fedora"
+  os: "rhel"
   stage: "bare"
   provider: "aws"
 parameters:
